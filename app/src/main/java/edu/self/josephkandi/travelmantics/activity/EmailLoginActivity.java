@@ -17,43 +17,41 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import edu.self.josephkandi.travelmantics.R;
 
-public class SignUpActivity extends AppCompatActivity {
+public class EmailLoginActivity extends AppCompatActivity {
 
     TextInputEditText textInputEditTextEmailAddress;
-    TextInputEditText textInputEditTextFullName;
     TextInputEditText textInputEditTextPassword;
-    Button btnSignUp;
+    Button btnLogin;
     FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_email_login);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        textInputEditTextEmailAddress = findViewById(R.id.tieEmail);
-        textInputEditTextFullName = findViewById(R.id.tieFullName);
+        textInputEditTextEmailAddress = findViewById(R.id.tieEmailAddress);
         textInputEditTextPassword = findViewById(R.id.tiePassword);
-        btnSignUp = findViewById(R.id.btnSignUp);
+        btnLogin = findViewById(R.id.btnLogin);
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signUp();
+                onLogin();
             }
         });
     }
 
-    private void signUp() {
+    private void onLogin() {
         String email = textInputEditTextEmailAddress.getText().toString();
         String password = textInputEditTextPassword.getText().toString();
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    startActivity(new Intent(SignUpActivity.this, AdminActivity.class));
+                    startActivity(new Intent(EmailLoginActivity.this, AdminActivity.class));
                 } else {
-                    Toast.makeText(SignUpActivity.this, "Sign Up Failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EmailLoginActivity.this, "Login failed", Toast.LENGTH_LONG).show();
                 }
             }
         });

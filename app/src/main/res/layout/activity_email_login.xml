@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="@dimen/activity_horizontal_margin"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.LoginActivity">
+    tools:context=".activity.EmailLoginActivity">
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -17,7 +16,7 @@
             android:id="@+id/tieEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/prompt_email" />
+            android:hint="@string/email" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -31,23 +30,10 @@
             android:hint="@string/prompt_password"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
-    <Button
-        android:id="@+id/btnLoginWithEmail"
-        android:text="Login with Email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/btnLoginWithGoogle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/btnsignUpWithEmail"
-        android:text="Sign up with Email"
+        android:id="@+id/btnLogin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-
-
+        android:layout_height="wrap_content"
+        android:text="Login" />
 </LinearLayout>
