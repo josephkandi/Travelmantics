@@ -1,11 +1,14 @@
 package edu.self.josephkandi.travelmantics.adapter;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -37,6 +40,10 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsViewHolder> {
         holder.textViewPlace.setText(deal.getPlace());
         holder.textViewDescription.setText(deal.getDescription());
         holder.textViewAmount.setText(deal.getAmount());
+        if(!TextUtils.isEmpty(deal.getPlaceImageUrl())){
+            Picasso.get().load(deal.getPlaceImageUrl()).into(holder.imageViewPlace);
+        }
+
     }
 
     @Override

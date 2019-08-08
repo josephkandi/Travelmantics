@@ -15,4 +15,6 @@
     <string name="select_image">Select Image</string>
     <string name="todo">TODO</string>
     <string name="email">Email</string>
+    <string name="add_deal">Add Deal</string>
+    <string name="sign_out">Sign Out</string>
 </resources>

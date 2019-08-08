@@ -22,9 +22,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.util.HashMap;
-
 import edu.self.josephkandi.travelmantics.R;
+import edu.self.josephkandi.travelmantics.models.Deal;
 
 public class AdminActivity extends AppCompatActivity implements OnCompleteListener<UploadTask.TaskSnapshot> {
 
@@ -39,6 +38,7 @@ public class AdminActivity extends AppCompatActivity implements OnCompleteListen
     FirebaseFirestore firestore;
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
+    Deal currentDeal = new Deal();
 
 
     @Override
@@ -90,13 +90,15 @@ public class AdminActivity extends AppCompatActivity implements OnCompleteListen
     }
 
     private void saveDeal() {
-        HashMap<String, Object> deal = new HashMap<>();
-        deal.put("place", textInputEditTextPlace.getText().toString());
-        deal.put("amount", textInputEditTextAmount.getText().toString());
-        deal.put("description", textInputEditTextDescription.getText().toString());
-        deal.put("placeImageUri", placeImageUri.toString());
+        String place = textInputEditTextPlace.getText().toString();
+        String amount =  textInputEditTextAmount.getText().toString();
+        String description = textInputEditTextDescription.getText().toString();
 
-        firestore.collection("deals").add(deal);
+        currentDeal.setPlace(place);
+        currentDeal.setAmount(amount);
+        currentDeal.setDescription(description);
+
+        firestore.collection("deals").add(currentDeal);
     }
 
 
@@ -108,7 +110,9 @@ public class AdminActivity extends AppCompatActivity implements OnCompleteListen
             storageReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
-                    placeImageUri = task.getResult();
+                    Log.d(TAG, task.getResult().toString());
+                    currentDeal.setPlaceImageUrl(task.getResult().toString());
+
                 }
 
             });
