@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/activity_horizontal_margin"
+    android:background="@drawable/bg_linear_gradient"
     android:id="@+id/main_layout"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,46 +10,97 @@
     android:layout_height="match_parent"
     tools:context=".activity.LoginActivity">
 
-
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
+        android:layout_gravity="center"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tieEmailAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/prompt_email" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
+    <TextView
+        android:gravity="center"
+        android:textColor="#fff"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:text="Welcome Back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <androidx.cardview.widget.CardView
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        app:contentPadding="@dimen/activity_horizontal_margin"
+        app:cardCornerRadius="@dimen/cardview_default_radius"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tiePassword"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/prompt_password"
-            android:inputType="textPassword" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="match_parent">
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tieEmailAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_email" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tiePassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_password"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
     <Button
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/bg_button_white"
+        android:textColor="@color/colorPrimaryDark"
         android:id="@+id/btnLoginWithEmail"
-        android:text="Login with Email"
+        android:text="Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.google.android.gms.common.SignInButton
+
+    <TextView
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:textColor="#fff"
+        android:gravity="center"
+        android:text="Or Sign in With"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageButton
         android:id="@+id/btnLoginWithGoogle"
-        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:src="@drawable/btn_google_light_normal_hdpi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:onClick="signUpWithWithEmail"
+        android:layout_gravity="bottom"
+        android:clickable="true"
+        android:focusable="true"
+        android:textColor="#fff"
+        android:text="Create Account"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/btnsignUpWithEmail"
-        android:text="Sign up with Email"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_gravity="bottom|right"
+        android:clickable="true"
+        android:focusable="true"
+        android:textColor="#fff"
+        android:text="Forgot Password"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-
-
-</LinearLayout>
+</FrameLayout>

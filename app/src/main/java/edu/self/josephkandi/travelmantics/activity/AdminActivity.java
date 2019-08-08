@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -97,8 +98,10 @@ public class AdminActivity extends AppCompatActivity implements OnCompleteListen
         currentDeal.setPlace(place);
         currentDeal.setAmount(amount);
         currentDeal.setDescription(description);
-
-        firestore.collection("deals").add(currentDeal);
+        firestore.collection("deals")
+                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .collection("deals")
+                .add(currentDeal);
     }
 
 

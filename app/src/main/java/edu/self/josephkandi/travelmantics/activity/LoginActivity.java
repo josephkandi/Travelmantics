@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,7 +15,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 200;
     private static final String TAG = LoginActivity.class.getSimpleName();
     Button btnLoginWithEmail;
-    SignInButton btnLoginWithGoogle;
+    ImageButton btnLoginWithGoogle;
     Button btnSignUpwithEmail;
     TextInputEditText textInputEditTextEmaillAddress;
     TextInputEditText textInputEditTextPassword;
@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLoginWithEmail = findViewById(R.id.btnLoginWithEmail);
         btnLoginWithGoogle = findViewById(R.id.btnLoginWithGoogle);
-        btnSignUpwithEmail = findViewById(R.id.btnsignUpWithEmail);
+       // btnSignUpwithEmail = findViewById(R.id.btnsignUpWithEmail);
         textInputEditTextEmaillAddress = findViewById(R.id.tieEmailAddress);
         textInputEditTextPassword = findViewById(R.id.tiePassword);
 
@@ -77,15 +77,15 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         
-        btnSignUpwithEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signUpWithWithEmail();
-            }
-        });
+//        btnSignUpwithEmail.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                signUpWithWithEmail();
+//            }
+//        });
     }
 
-    private void signUpWithWithEmail() {
+     public void signUpWithWithEmail(View view) {
         startActivity(new Intent(this, SignUpActivity.class));
     }
 

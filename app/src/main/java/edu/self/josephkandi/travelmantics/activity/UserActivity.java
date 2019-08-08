@@ -18,8 +18,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
-
 import javax.annotation.Nullable;
 
 import edu.self.josephkandi.travelmantics.R;
@@ -31,15 +29,19 @@ public class UserActivity extends AppCompatActivity implements EventListener<Que
     RecyclerView recyclerView;
     DealsAdapter dealsAdapter = new DealsAdapter();
     FirebaseFirestore firestore;
-    ArrayList<Deal> deals = new ArrayList<>();
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+        firebaseAuth = FirebaseAuth.getInstance();
 
         firestore = FirebaseFirestore.getInstance();
-        firestore.collection("deals").addSnapshotListener(this, this);
+        firestore.collection("deals")
+                .document(firebaseAuth.getCurrentUser().getUid())
+                .collection("deals")
+                .addSnapshotListener(this, this);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
