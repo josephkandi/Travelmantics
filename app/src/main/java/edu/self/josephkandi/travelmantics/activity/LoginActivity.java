@@ -2,6 +2,7 @@ package edu.self.josephkandi.travelmantics.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,11 +23,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import edu.self.josephkandi.travelmantics.R;
+import edu.self.josephkandi.travelmantics.app.TravelmanticsApp;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -34,17 +34,17 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = LoginActivity.class.getSimpleName();
     Button btnLoginWithEmail;
     ImageButton btnLoginWithGoogle;
-    Button btnSignUpwithEmail;
     TextInputEditText textInputEditTextEmaillAddress;
     TextInputEditText textInputEditTextPassword;
-    FirebaseAuth firebaseAuth;
+    TravelmanticsApp app;
 
     @Override
     public void onStart() {
         super.onStart();
+        app = (TravelmanticsApp) getApplication();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if(currentUser != null){
+
+        if(app.firebaseUser != null){
             proceedToAdmin();
         }
     }
@@ -53,12 +53,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        firebaseAuth = FirebaseAuth.getInstance();
 
 
         btnLoginWithEmail = findViewById(R.id.btnLoginWithEmail);
         btnLoginWithGoogle = findViewById(R.id.btnLoginWithGoogle);
-       // btnSignUpwithEmail = findViewById(R.id.btnsignUpWithEmail);
         textInputEditTextEmaillAddress = findViewById(R.id.tieEmailAddress);
         textInputEditTextPassword = findViewById(R.id.tiePassword);
 
@@ -68,21 +66,12 @@ public class LoginActivity extends AppCompatActivity {
                 loginWithEmail();
             }
         });
-
         btnLoginWithGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loginWithGoogle();
             }
         });
-
-        
-//        btnSignUpwithEmail.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                signUpWithWithEmail();
-//            }
-//        });
     }
 
      public void signUpWithWithEmail(View view) {
@@ -120,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        firebaseAuth.signInWithCredential(credential)
+        app.firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -144,7 +133,16 @@ public class LoginActivity extends AppCompatActivity {
         String emailAddress = textInputEditTextEmaillAddress.getText().toString();
         String password = textInputEditTextPassword.getText().toString();
 
-        firebaseAuth.signInWithEmailAndPassword(emailAddress, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        if(TextUtils.isEmpty(emailAddress)){
+            textInputEditTextEmaillAddress.setError(getString(R.string.email_required));
+            return;
+        }
+        if(TextUtils.isEmpty(password)){
+            textInputEditTextPassword.setError(getString(R.string.password_required));
+            return;
+        }
+
+        app.firebaseAuth.signInWithEmailAndPassword(emailAddress, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
