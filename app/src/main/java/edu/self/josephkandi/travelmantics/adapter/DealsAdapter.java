@@ -20,6 +20,10 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsViewHolder> {
         notifyItemInserted(getItemCount() - 1);
     }
 
+    public ArrayList<Deal> getDeals(){
+        return  dealArrayList;
+    }
+
     @NonNull
     @Override
     public DealsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

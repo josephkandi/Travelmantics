@@ -6,6 +6,9 @@ public class Deal {
     private String description;
     private String placeImageUrl;
 
+    public Deal() {
+    }
+
     public Deal(String place, String amount, String description, String placeImageUrl) {
         this.place = place;
         this.amount = amount;
@@ -43,5 +46,10 @@ public class Deal {
 
     public void setPlaceImageUrl(String placeImageUrl) {
         this.placeImageUrl = placeImageUrl;
+    }
+
+    @Override
+    public String toString() {
+        return getPlace();
     }
 }
