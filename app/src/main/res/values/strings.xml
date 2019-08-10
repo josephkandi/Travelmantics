@@ -31,4 +31,6 @@
     <string name="search">Search</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="save">Save</string>
+    <string name="sign_up_failed">Failed to sign up</string>
+    <string name="image_upload_failed">Failed to upload image</string>
 </resources>

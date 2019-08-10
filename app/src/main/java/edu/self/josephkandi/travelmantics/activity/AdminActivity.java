@@ -8,22 +8,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import edu.self.josephkandi.travelmantics.R;
+import edu.self.josephkandi.travelmantics.app.TravelmanticsApp;
 import edu.self.josephkandi.travelmantics.models.Deal;
 import edu.self.josephkandi.travelmantics.utils.Constants;
 
@@ -36,9 +38,9 @@ public class AdminActivity extends AppCompatActivity implements OnCompleteListen
     TextInputEditText textInputEditTextDescription;
     ImageView imageViewPlace;
     Uri placeImageUri;
+    ProgressBar progressBar;
+    TravelmanticsApp app;
 
-    FirebaseFirestore firestore;
-    FirebaseStorage firebaseStorage;
     StorageReference storageReference;
     Deal currentDeal = new Deal();
 
@@ -47,13 +49,14 @@ public class AdminActivity extends AppCompatActivity implements OnCompleteListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
-        firestore = FirebaseFirestore.getInstance();
-        firebaseStorage = FirebaseStorage.getInstance();
+        app = (TravelmanticsApp)getApplication();
+
 
         textInputEditTextPlace = findViewById(R.id.tiePlace);
         textInputEditTextAmount = findViewById(R.id.tieAmount);
         textInputEditTextDescription = findViewById(R.id.tieDescription);
         imageViewPlace = findViewById(R.id.imgPlace);
+        progressBar = findViewById(R.id.pbProgress);
     }
 
     public void pickImage(View view) {
@@ -69,8 +72,9 @@ public class AdminActivity extends AppCompatActivity implements OnCompleteListen
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
             placeImageUri = data.getData();
             imageViewPlace.setImageURI(placeImageUri);
-            storageReference = firebaseStorage.getReference("images");
+            storageReference = app.firebaseStorage.getReference().child("images/" + placeImageUri.getLastPathSegment());
             storageReference.putFile(placeImageUri).addOnCompleteListener(this);
+            progressBar.setVisibility(View.VISIBLE);
         }
     }
 
@@ -96,33 +100,44 @@ public class AdminActivity extends AppCompatActivity implements OnCompleteListen
         String amount =  textInputEditTextAmount.getText().toString();
         String description = textInputEditTextDescription.getText().toString();
 
+
+        AlertDialog progressDialog = new AlertDialog.Builder(this)
+
+                .create();
+
         currentDeal.setPlace(place);
         currentDeal.setAmount(amount);
         currentDeal.setDescription(description);
-        firestore.collection(Constants.DEALS_COLLECTION)
+        app.firestore.collection(Constants.DEALS_COLLECTION)
                 .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .collection(Constants.DEALS_COLLECTION)
-                .add(currentDeal);
-        finish();
+                .add(currentDeal)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+
+                        finish();
+                    }
+                });
     }
 
 
 
     @Override
     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-        Log.d(TAG, "Complete");
+        Log.d(TAG, "Upload finished");
+        progressBar.setVisibility(View.INVISIBLE);
         if(task.isSuccessful()){
             storageReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
-                    Log.d(TAG, task.getResult().toString());
                     currentDeal.setPlaceImageUrl(task.getResult().toString());
-
+                    Log.d(TAG, task.getResult().toString());
                 }
 
             });
         } else {
-            Toast.makeText (AdminActivity.this, "Unable to save image", Toast.LENGTH_SHORT).show();
+            Toast.makeText (AdminActivity.this, getString(R.string.image_upload_failed), Toast.LENGTH_SHORT).show();
         }
     }
 }

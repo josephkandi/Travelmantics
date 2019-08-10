@@ -53,7 +53,7 @@ public class SignUpActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     startActivity(new Intent(SignUpActivity.this, AdminActivity.class));
                 } else {
-                    Toast.makeText(SignUpActivity.this, "Sign Up Failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignUpActivity.this, getString(R.string.sign_up_failed), Toast.LENGTH_LONG).show();
                 }
             }
         });

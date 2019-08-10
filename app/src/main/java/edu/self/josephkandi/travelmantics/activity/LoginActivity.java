@@ -54,7 +54,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
         btnLoginWithEmail = findViewById(R.id.btnLoginWithEmail);
         btnLoginWithGoogle = findViewById(R.id.btnLoginWithGoogle);
         textInputEditTextEmaillAddress = findViewById(R.id.tieEmailAddress);
@@ -148,7 +147,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (task.isSuccessful()){
                     startActivity(new Intent(LoginActivity.this, AdminActivity.class));
                 } else {
-                    Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, getString(R.string.login_failed), Toast.LENGTH_LONG).show();
                 }
             }
         });
