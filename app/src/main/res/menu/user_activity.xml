@@ -3,9 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        app:showAsAction="always"
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/search"
+        app:actionViewClass="android.widget.SearchView" />
+    <item
         android:id="@+id/action_add_deal"
-        android:title="@string/add_deal" />
+        android:icon="@drawable/ic_add_white_24dp"
+        android:title="@string/add_deal"
+        app:showAsAction="always" />
+
     <item
         android:id="@+id/action_sign_out"
         android:title="@string/sign_out" />
+
 </menu>
