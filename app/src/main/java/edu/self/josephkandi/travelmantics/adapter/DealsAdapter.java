@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import edu.self.josephkandi.travelmantics.R;
@@ -17,6 +18,7 @@ import edu.self.josephkandi.travelmantics.models.Deal;
 
 public class DealsAdapter extends RecyclerView.Adapter<DealsViewHolder> {
     ArrayList<Deal> dealArrayList = new ArrayList<>();
+    static NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
 
     public void addDeal(Deal deal){
         if(dealArrayList.contains(deal)){
@@ -43,7 +45,7 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsViewHolder> {
         Deal deal = dealArrayList.get(position);
         holder.textViewPlace.setText(deal.getPlace());
         holder.textViewDescription.setText(deal.getDescription());
-        holder.textViewAmount.setText(deal.getAmount());
+        holder.textViewAmount.setText(numberFormat.format(Double.parseDouble(deal.getAmount())));
         if(!TextUtils.isEmpty(deal.getPlaceImageUrl())){
             Picasso.get().load(deal.getPlaceImageUrl()).into(holder.imageViewPlace);
         }
