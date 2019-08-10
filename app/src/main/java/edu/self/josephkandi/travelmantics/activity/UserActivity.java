@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,15 +26,15 @@ import javax.annotation.Nullable;
 
 import edu.self.josephkandi.travelmantics.R;
 import edu.self.josephkandi.travelmantics.adapter.DealsAdapter;
+import edu.self.josephkandi.travelmantics.app.TravelmanticsApp;
 import edu.self.josephkandi.travelmantics.models.Deal;
 import edu.self.josephkandi.travelmantics.utils.Constants;
 
-public class UserActivity extends AppCompatActivity implements EventListener<QuerySnapshot> {
+public class UserActivity extends BaseActivity implements EventListener<QuerySnapshot> {
     private static final String TAG = UserActivity.class.getSimpleName();
     RecyclerView recyclerView;
+    TravelmanticsApp app;
     DealsAdapter dealsAdapter = new DealsAdapter();
-    FirebaseFirestore firestore;
-    FirebaseAuth firebaseAuth;
     FloatingActionButton fab;
     private ListenerRegistration unSubscribe;
 
@@ -43,7 +42,8 @@ public class UserActivity extends AppCompatActivity implements EventListener<Que
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        firebaseAuth = FirebaseAuth.getInstance();
+        app = getApp();
+
 
         recyclerView = findViewById(R.id.recyclerView);
         fab = findViewById(R.id.fab);
@@ -66,9 +66,10 @@ public class UserActivity extends AppCompatActivity implements EventListener<Que
     @Override
     protected void onResume() {
         super.onResume();
-        firestore = FirebaseFirestore.getInstance();
-        unSubscribe = firestore.collection(Constants.DEALS_COLLECTION)
-                .document(firebaseAuth.getCurrentUser().getUid())
+        app.firestore = FirebaseFirestore.getInstance();
+
+        unSubscribe = app.firestore.collection(Constants.DEALS_COLLECTION)
+                .document(app.firebaseAuth.getCurrentUser().getUid())
                 .collection(Constants.DEALS_COLLECTION)
                 .addSnapshotListener(this, this);
     }

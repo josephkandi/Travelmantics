@@ -10,7 +10,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -26,9 +25,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import edu.self.josephkandi.travelmantics.R;
-import edu.self.josephkandi.travelmantics.app.TravelmanticsApp;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private static final int RC_SIGN_IN = 200;
     private static final String TAG = LoginActivity.class.getSimpleName();
@@ -36,15 +34,13 @@ public class LoginActivity extends AppCompatActivity {
     ImageButton btnLoginWithGoogle;
     TextInputEditText textInputEditTextEmaillAddress;
     TextInputEditText textInputEditTextPassword;
-    TravelmanticsApp app;
 
     @Override
     public void onStart() {
         super.onStart();
-        app = (TravelmanticsApp) getApplication();
         // Check if user is signed in (non-null) and update UI accordingly.
 
-        if(app.firebaseUser != null){
+        if(getApp().firebaseUser != null){
             proceedToAdmin();
         }
     }
@@ -108,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        app.firebaseAuth.signInWithCredential(credential)
+        getApp().firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -141,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        app.firebaseAuth.signInWithEmailAndPassword(emailAddress, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        getApp().firebaseAuth.signInWithEmailAndPassword(emailAddress, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){

@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -17,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import edu.self.josephkandi.travelmantics.R;
 
-public class EmailLoginActivity extends AppCompatActivity {
+public class EmailLoginActivity extends BaseActivity {
 
     TextInputEditText textInputEditTextEmailAddress;
     TextInputEditText textInputEditTextPassword;
@@ -28,7 +27,7 @@ public class EmailLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_login);
-        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth = getApp().firebaseAuth;
 
         textInputEditTextEmailAddress = findViewById(R.id.tieEmailAddress);
         textInputEditTextPassword = findViewById(R.id.tiePassword);

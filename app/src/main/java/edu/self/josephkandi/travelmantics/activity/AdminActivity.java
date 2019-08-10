@@ -14,7 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,7 +28,7 @@ import edu.self.josephkandi.travelmantics.app.TravelmanticsApp;
 import edu.self.josephkandi.travelmantics.models.Deal;
 import edu.self.josephkandi.travelmantics.utils.Constants;
 
-public class AdminActivity extends AppCompatActivity implements OnCompleteListener<UploadTask.TaskSnapshot> {
+public class AdminActivity extends BaseActivity implements OnCompleteListener<UploadTask.TaskSnapshot> {
 
     private static final int REQUEST_CODE = 200;
     private static final String TAG = AdminActivity.class.getSimpleName();
@@ -49,7 +48,7 @@ public class AdminActivity extends AppCompatActivity implements OnCompleteListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
-        app = (TravelmanticsApp)getApplication();
+        app = getApp();
 
 
         textInputEditTextPlace = findViewById(R.id.tiePlace);
