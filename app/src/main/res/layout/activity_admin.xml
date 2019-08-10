@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/medium_margin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.AdminActivity">
-
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -42,6 +42,8 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
+        android:background="@drawable/bg_colored_button"
+        android:textColor="#fff"
         android:onClick="pickImage"
         android:id="@+id/btnPickImage"
         android:layout_width="match_parent"

@@ -25,6 +25,7 @@ import com.google.firebase.storage.UploadTask;
 
 import edu.self.josephkandi.travelmantics.R;
 import edu.self.josephkandi.travelmantics.models.Deal;
+import edu.self.josephkandi.travelmantics.utils.Constants;
 
 public class AdminActivity extends AppCompatActivity implements OnCompleteListener<UploadTask.TaskSnapshot> {
 
@@ -98,10 +99,11 @@ public class AdminActivity extends AppCompatActivity implements OnCompleteListen
         currentDeal.setPlace(place);
         currentDeal.setAmount(amount);
         currentDeal.setDescription(description);
-        firestore.collection("deals")
+        firestore.collection(Constants.DEALS_COLLECTION)
                 .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .collection("deals")
+                .collection(Constants.DEALS_COLLECTION)
                 .add(currentDeal);
+        finish();
     }
 
 

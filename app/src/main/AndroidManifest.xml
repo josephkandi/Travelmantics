@@ -14,7 +14,7 @@
         <activity
             android:name=".activity.UserActivity"
             android:label="@string/deals"></activity>
-        <activity android:name=".activity.AdminActivity"></activity>
+        <activity android:name=".activity.AdminActivity" android:label="Add Deal"></activity>
         <activity android:name=".activity.SignUpActivity" />
         <activity
             android:name=".activity.LoginActivity"
