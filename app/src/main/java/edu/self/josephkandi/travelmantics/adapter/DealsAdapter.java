@@ -19,8 +19,12 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsViewHolder> {
     ArrayList<Deal> dealArrayList = new ArrayList<>();
 
     public void addDeal(Deal deal){
-        dealArrayList.add(deal);
-        notifyItemInserted(getItemCount() - 1);
+        if(dealArrayList.contains(deal)){
+            dealArrayList.set(dealArrayList.indexOf(deal), deal);
+        } else {
+            dealArrayList.add(deal);
+            notifyItemInserted(getItemCount() - 1);
+        }
     }
 
     public ArrayList<Deal> getDeals(){

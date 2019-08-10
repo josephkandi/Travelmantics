@@ -16,6 +16,8 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import javax.annotation.Nullable;
@@ -23,6 +25,7 @@ import javax.annotation.Nullable;
 import edu.self.josephkandi.travelmantics.R;
 import edu.self.josephkandi.travelmantics.adapter.DealsAdapter;
 import edu.self.josephkandi.travelmantics.models.Deal;
+import edu.self.josephkandi.travelmantics.utils.Constants;
 
 public class UserActivity extends AppCompatActivity implements EventListener<QuerySnapshot> {
     private static final String TAG = UserActivity.class.getSimpleName();
@@ -30,6 +33,7 @@ public class UserActivity extends AppCompatActivity implements EventListener<Que
     DealsAdapter dealsAdapter = new DealsAdapter();
     FirebaseFirestore firestore;
     FirebaseAuth firebaseAuth;
+    private ListenerRegistration unSubscribe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +41,25 @@ public class UserActivity extends AppCompatActivity implements EventListener<Que
         setContentView(R.layout.activity_user);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        firestore = FirebaseFirestore.getInstance();
-        firestore.collection("deals")
-                .document(firebaseAuth.getCurrentUser().getUid())
-                .collection("deals")
-                .addSnapshotListener(this, this);
-
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(dealsAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        firestore = FirebaseFirestore.getInstance();
+        unSubscribe = firestore.collection(Constants.DEALS_COLLECTION)
+                .document(firebaseAuth.getCurrentUser().getUid())
+                .collection(Constants.DEALS_COLLECTION)
+                .addSnapshotListener(this, this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unSubscribe.remove();
     }
 
     @Override
@@ -80,9 +94,12 @@ public class UserActivity extends AppCompatActivity implements EventListener<Que
             Log.w(TAG, "Error " + e.getMessage());
         }
 
-        for (DocumentChange document : queryDocumentSnapshots.getDocumentChanges()){
-            if(document.getType() == DocumentChange.Type.ADDED){
-                Deal deal = document.getDocument().toObject(Deal.class);
+        for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()){
+
+            if(documentChange.getType() == DocumentChange.Type.ADDED){
+                QueryDocumentSnapshot document = documentChange.getDocument();
+                Deal deal = document.toObject(Deal.class);
+                deal.setId(document.getId());
                 dealsAdapter.addDeal(deal);
                 Log.d(TAG, deal.toString());
             }

@@ -1,6 +1,31 @@
 package edu.self.josephkandi.travelmantics.models;
 
+import java.util.Objects;
+
 public class Deal {
+    private  String id;
+
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Deal)) return false;
+        Deal deal = (Deal) o;
+        return getId().equals(deal.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     private String place;
     private String amount;
     private String description;
