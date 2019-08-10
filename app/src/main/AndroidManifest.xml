@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.EmailLoginActivity"></activity>
-        <activity android:name=".activity.UserActivity" >
+        <activity android:name=".activity.UserActivity" android:label="@string/deals" >
 
         </activity>
         <activity android:name=".activity.AdminActivity">
