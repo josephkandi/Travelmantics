@@ -50,11 +50,14 @@
         android:layout_height="wrap_content"
         android:text="@string/select_image" />
     <FrameLayout
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
 
         <ImageView
+            android:scaleType="centerCrop"
             android:id="@+id/imgPlace"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
