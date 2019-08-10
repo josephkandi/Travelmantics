@@ -47,7 +47,11 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsViewHolder> {
         holder.textViewDescription.setText(deal.getDescription());
         holder.textViewAmount.setText(numberFormat.format(Double.parseDouble(deal.getAmount())));
         if(!TextUtils.isEmpty(deal.getPlaceImageUrl())){
-            Picasso.get().load(deal.getPlaceImageUrl()).into(holder.imageViewPlace);
+            Picasso.get()
+                    .load(deal.getPlaceImageUrl())
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder)
+                    .into(holder.imageViewPlace);
         }
 
     }
