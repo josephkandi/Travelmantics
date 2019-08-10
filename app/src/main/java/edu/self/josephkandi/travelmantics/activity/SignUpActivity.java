@@ -2,6 +2,7 @@ package edu.self.josephkandi.travelmantics.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -46,6 +47,16 @@ public class SignUpActivity extends BaseActivity {
     private void signUp() {
         String email = textInputEditTextEmailAddress.getText().toString();
         String password = textInputEditTextPassword.getText().toString();
+
+        if(TextUtils.isEmpty(email)){
+            textInputEditTextEmailAddress.setError(getString(R.string.email_required));
+            return;
+        }
+        if(TextUtils.isEmpty(password)){
+            textInputEditTextPassword.setError(getString(R.string.password_required));
+            return;
+        }
+
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
